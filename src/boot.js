@@ -724,7 +724,7 @@ function updateActionPanel(u) {
         html += `<button id="btn-wpn-${index}" class="${activeClass}" ${disabledStr}><img src="${w.customStats.icon}"></button>`;
     });
 
-    html += `<div style="width:2px; background:#555; margin:0 5px; border-radius:2px;"></div>`;
+    html += `<div style="width:1px; background:#555; margin:0 5px;"></div>`;
 
     // Кнопки активных способностей
     const abilities = UNIT_STATS[u.type].abilities || [];
