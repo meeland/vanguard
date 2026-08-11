@@ -7,44 +7,45 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
     <div id="lobby-screen">
-        <div style="display: flex; gap: 14px;">
+        <div class="lobby-panels">
             <div class="panel">
-                <h3>Создать игру (хост)</h3>
+                
+                <div class="lobby-title">
+                    <a>Создать игру</a>
+                    <a id="host-status" class="status-text"></a>
+                </div>
                 <button id="btn-host-start" class="btn-main">Сгенерировать Оффер</button>
-                <span id="host-status" class="status-text"></span>
                 <div class="input-group">
-                    <textarea id="host-offer-output" readonly placeholder="Ваш код для друга..."></textarea>
+                    <textarea id="host-offer-output" readonly placeholder="Ваш код для гостя..."></textarea>
                     <button id="btn-copy-offer" class="btn-copy" title="Копировать">📋</button>
                 </div>
-                <p style="font-size: 12px; margin-top: 15px; color: #aaa;">Вставьте ответ от гостя ниже</p>
-                <textarea id="host-answer-input" placeholder="Вставьте код ответа сюда..."></textarea>
+                <textarea id="host-answer-input" placeholder="Вставьте код ответа..."></textarea>
                 <button id="btn-host-finish" class="btn-main" disabled>Завершить соединение</button>
             </div>
-
             <div class="panel">
-                <h3>Присоединиться (гость)</h3>
-                <p style="font-size: 12px; color: #aaa;">Вставьте оффер хоста</p>
-                <textarea id="client-offer-input" placeholder="Вставьте код оффера сюда..."></textarea>
+                <div class="lobby-title">
+                    <a>Присоединиться</a>
+                    <a id="client-status" class="status-text"></a>
+                </div>
                 <button id="btn-client-join" class="btn-main">Сгенерировать ответ</button>
-                <span id="client-status" class="status-text"></span>
-                <p style="font-size: 12px; margin-top: 15px; color: #aaa;">Ваш код ответа (отправьте хосту)</p>
+                <textarea id="client-offer-input" placeholder="Вставьте код оффера сюда..."></textarea>
                 <div class="input-group">
-                    <textarea id="client-answer-output" readonly placeholder="Здесь появится ваш код ответа..."></textarea>
+                    <textarea id="client-answer-output" readonly placeholder="Здесь появится код ответа..."></textarea>
                     <button id="btn-copy-answer" class="btn-copy" title="Копировать">📋</button>
                 </div>
             </div>
         </div>
-        <div id="connection-status" style="margin-top: 20px; font-weight: bold; color: #eee;"></div>
+        <div id="connection-status"></div>
     </div>
 
     <div id="draft-screen" class="hidden">
         <div class="draft-layout">
-            
             <div class="draft-top-section">
                 <div class="draft-units-col">
-                    <div style="display: flex; gap: 15px; height: 100%;">
-                        <div id="faction-tabs" style="display: flex; flex-direction: column; gap: 10px; flex-shrink: 0;">
+                    <div class="filter-units">
+                        <div class="faction-tabs">
                             <button class="faction-tab active" data-faction="standard" title="SA"><img src="assets/satype.png"></button>
                             <button class="faction-tab" data-faction="sfaction" title="S"><img src="assets/stype.png"></button>
                             <button class="faction-tab" data-faction="mfaction" title="M"><img src="assets/mtype.png"></button>
@@ -67,15 +68,15 @@
             <div class="draft-bottom-section">
                 <div class="draft-bottom-header">
                     <h3 id="draft-count">Выбранный флот: 0 / 16</h3>
-                    <button id="btn-draft-ready" class="btn-main">ГОТОВ К БИТВЕ</button>
+                    <button id="btn-draft-ready" class="btn-main">ГОТОВ</button>
                 </div>
                 <div id="draft-army"></div>
             </div>
 
         </div>
 
-        <div id="unit-info-modal" class="hidden panel" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100; border: 2px solid #4CAF50; width: 340px; box-shadow: 0 0 30px rgba(0,0,0,0.8);">
-            <h3 id="info-title" style="color:#4CAF50; text-align:center; margin-top: 0;">Информация о корабле</h3>
+        <div id="unit-info-modal" class="hidden panel">
+            <h3 id="info-title">Информация о корабле</h3>
             <div class="info-stats-box">
                 <div><span style="color:#aaa;">HP:</span> <span id="info-hp" style="color:#4CAF50; font-weight:bold;"></span></div>
                 <div><span style="color:#aaa;">Щиты:</span> <span id="info-shield" style="color:#03A9F4; font-weight:bold;"></span></div>
@@ -83,13 +84,13 @@
                 <div><span style="color:#aaa;">Тоннаж:</span> <span id="info-tonnage" style="font-weight:bold;"></span></div>
             </div>
             
-            <h4 style="margin-bottom: 5px; color: #aaa; border-bottom: 1px solid #333; padding-bottom: 5px;">Орудийные системы:</h4>
+            <div class="tooltipe-title">Орудийные системы:</div>
             <div id="info-weapons" class="info-icon-row"></div>
 
-            <h4 style="margin-bottom: 5px; color: #aaa; border-bottom: 1px solid #333; padding-bottom: 5px;">Способности:</h4>
+            <div class="tooltipe-title">Способности:</div>
             <div id="info-abilities" class="info-icon-row"></div>
 
-            <div style="display:flex; gap: 10px; margin-top: 20px;">
+            <div class="tooltip-btn">
                 <button id="btn-info-close" class="btn-main" style="background: #555; margin-top:0;">Закрыть</button>
                 <button id="btn-info-delete" class="btn-main" style="background: #F44336; margin-top:0;">Убрать из флота</button>
             </div>
@@ -97,8 +98,8 @@
     </div>
 
     <div id="game-screen" class="hidden">
-        <div id="host-controls" class="hidden" style="position: absolute; top: 10px; left: 364px; z-index: 10;">
-            <button id="btn-restart" class="btn-main" style="background: #F44336; padding: 6px 12px; font-size: 11px; margin: 0;">Рестарт игры</button>
+        <div id="host-controls" class="hidden" style="position: absolute; top: 10px; left: 365px; z-index: 10;">
+            <button id="btn-restart" class="btn-main" style="background: #F44336; padding: 6px 12px; font-size: 11px; margin: 0;">РЕСТАРТ</button>
         </div>
 
         <div id="top-ui-container">
